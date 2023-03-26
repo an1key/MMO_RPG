@@ -14,13 +14,25 @@ class GameController:
             for j in range(field_size_x):
                 self.clear_field[i].append(self.field_filling)
         self.game_field = self.clear_field
-        self.sc = pg.display.set_mode((len(self.game_field[1]) * 64 + 100, len(self.game_field) * 64 + 100))
+        self.sc = pg.display.set_mode((len(self.game_field[1]) * 64 + 500, len(self.game_field) * 64 + 100))
+        pg.font.init()
         print('im new game')
 
     def show_field(self):
-        pg.draw.rect(self.sc, (255,255,255), (0, 0, len(self.game_field[1]) * 64 + 100, len(self.game_field) * 64 + 100))
+        pg.draw.rect(self.sc, (255,255,255), (0, 0, len(self.game_field[1]) * 64 + 500, len(self.game_field) * 64 + 100))
         pg.draw.rect(self.sc, (64, 128, 255),
                          (50, 50, len(self.game_field[1]) * 64, len(self.game_field) * 64), 2)
+        text_start_x = len(self.game_field[1]) * 64 + 100
+        tfont = pg.font.SysFont('Futura', 24)
+        self.sc.blit(tfont.render('Action points:', True, (0, 0, 0)), (text_start_x, 50))
+        self.sc.blit(tfont.render('Players:', True, (0, 128, 0)), (text_start_x, 100))
+        for i in range(0, len(self.players)):
+            self.sc.blit(tfont.render(str(self.players[i].current_od), True, (0, 128, 0)), (text_start_x, 130 + 30*i))
+
+        self.sc.blit(tfont.render('Mobs:', True, (128, 0, 0)), (text_start_x + 100, 100))
+        for i in range(0, len(self.mobs)):
+            self.sc.blit(tfont.render(str(self.mobs[i].current_od), True, (128, 0, 0)), (text_start_x + 100, 130 + 30*i))
+
         print('=============')
         for i in range(0, len(self.game_field)):
             for j in range(0, len(self.game_field[0])):
@@ -59,9 +71,11 @@ class GameController:
         self.show_field()
         while len(self.players) != 0 and len(self.mobs) != 0:
             for player in self.players:
-                self.move_entity(player, random.randint(-1,1), random.randint(-1,1))
+                self.move_entity(player, random.choice((-1,1)), random.choice((-1,1)))
             for mob in self.mobs:
-                self.move_entity(mob, random.randint(-1, 1), random.randint(-1, 1))
+                self.move_entity(mob, random.choice((-1,1)), random.choice((-1,1)))
+            # self.move_entity(self.players[0], 1, 1)
+            # self.move_entity(self.mobs[0],-1, -1)
             self.update_field()
             # if self.game_field != old_field:
             self.show_field()
