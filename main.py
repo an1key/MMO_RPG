@@ -36,7 +36,7 @@ import random
 #     print('Player won')
 
 game = GameController(10,10,
-                      [Player('KINNG', 50, 15, 5),Player('BORIS', 100, 20, 7)],
-                      [Mob('Insipid', 10, 5)])
+                      [Player('KINNG', 50, 15, 1000),Player('BORIS', 100, 20, 1000)],
+                      [Mob('Insipid', 10, 5, 1000), Mob('Prikolist',10,5,1000)])
 game.start_game()
 print('finished')

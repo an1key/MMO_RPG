@@ -1,6 +1,7 @@
 import time
 import pygame as pg
 import sys
+import random
 class GameController:
     def __init__(self, field_size_x: int, field_size_y: int, players: list, mobs: list):
         self.players = players
@@ -25,9 +26,11 @@ class GameController:
             for j in range(0, len(self.game_field[0])):
                 pg.draw.rect(self.sc, (64,128,255), (50 + j * 64, 50 + i * 64, 64, 64), 1)
                 if self.game_field[i][j] == 'P':
-                    pg.draw.rect(self.sc, (0, 128, 0), (50 + j * 64 + 10, 50 + i * 64 + 10, 44, 44))
+                    pg.draw.circle(self.sc, (0,128,0), (50 + j * 64 + 32, 50 + i * 64 + 32), 22 )
+                    # pg.draw.rect(self.sc, (0, 128, 0), (50 + j * 64 + 10, 50 + i * 64 + 10, 44, 44))
                 if self.game_field[i][j] == 'M':
-                    pg.draw.rect(self.sc, (128, 0, 0), (50 + j * 64 + 10, 50 + i * 64 + 10, 44, 44))
+                    pg.draw.circle(self.sc, (128, 0, 0), (50 + j * 64 + 32, 50 + i * 64 + 32), 22)
+                    # pg.draw.rect(self.sc, (128, 0, 0), (50 + j * 64 + 10, 50 + i * 64 + 10, 44, 44))
             print('|', *self.game_field[i], '|')
         print('=============')
         pg.display.update()
@@ -56,7 +59,9 @@ class GameController:
         self.show_field()
         while len(self.players) != 0 and len(self.mobs) != 0:
             for player in self.players:
-               self.move_entity(player, 1, 1)
+                self.move_entity(player, random.randint(-1,1), random.randint(-1,1))
+            for mob in self.mobs:
+                self.move_entity(mob, random.randint(-1, 1), random.randint(-1, 1))
             self.update_field()
             # if self.game_field != old_field:
             self.show_field()
@@ -104,19 +109,21 @@ class GameController:
             if entity.current_od < 1:
                 print('You don`t have enough action points')
                 raise
-            if self.game_field[entity.get_pos()[0] + delta_x][entity.get_pos()[1] + delta_y] != self.field_filling:
-                print('This cell is already busy')
-                raise
             if entity.get_pos()[0] + delta_x < 0 or entity.get_pos()[0] + delta_x >= len(self.game_field[0]) or entity.get_pos()[1] + delta_y < 0 or entity.get_pos()[1] + delta_y >= len(self.game_field):
                 print('This cell is outside the field')
                 raise
+            if self.game_field[entity.get_pos()[0] + delta_x][entity.get_pos()[1] + delta_y] != self.field_filling:
+                print('This cell is already busy')
+                raise
 
-            entity.move(delta_x, delta_y)
-            entity.current_od -= 1
+
 
         except Exception as exc:
             print (exc)
             print('you cannot move there')
+        else:
+            entity.move(delta_x, delta_y)
+            entity.current_od -= 1
 
 
 class UserController:

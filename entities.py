@@ -44,6 +44,6 @@ class Player(Entity):
 
 
 class Mob(Entity):
-    def __init__(self, name: str, hp: int, dmg: int):
-        super().__init__(name, hp, dmg)
+    def __init__(self, name: str, hp: int, dmg: int, od = 1):
+        super().__init__(name, hp, dmg, od)
         self.flag = False
