@@ -1,4 +1,6 @@
 import time
+import pygame as pg
+import sys
 class GameController:
     def __init__(self, field_size_x: int, field_size_y: int, players: list, mobs: list):
         self.players = players
@@ -11,13 +13,24 @@ class GameController:
             for j in range(field_size_x):
                 self.clear_field[i].append(self.field_filling)
         self.game_field = self.clear_field
+        self.sc = pg.display.set_mode((len(self.game_field[1]) * 64 + 100, len(self.game_field) * 64 + 100))
         print('im new game')
 
     def show_field(self):
+        pg.draw.rect(self.sc, (255,255,255), (0, 0, len(self.game_field[1]) * 64 + 100, len(self.game_field) * 64 + 100))
+        pg.draw.rect(self.sc, (64, 128, 255),
+                         (50, 50, len(self.game_field[1]) * 64, len(self.game_field) * 64), 2)
         print('=============')
         for i in range(0, len(self.game_field)):
+            for j in range(0, len(self.game_field[0])):
+                pg.draw.rect(self.sc, (64,128,255), (50 + j * 64, 50 + i * 64, 64, 64), 1)
+                if self.game_field[i][j] == 'P':
+                    pg.draw.rect(self.sc, (0, 128, 0), (50 + j * 64 + 10, 50 + i * 64 + 10, 44, 44))
+                if self.game_field[i][j] == 'M':
+                    pg.draw.rect(self.sc, (128, 0, 0), (50 + j * 64 + 10, 50 + i * 64 + 10, 44, 44))
             print('|', *self.game_field[i], '|')
         print('=============')
+        pg.display.update()
 
     def update_field(self):
         self.game_field = self.clear_field
@@ -50,6 +63,9 @@ class GameController:
             for i in self.all_cre:
                 for entity in i:
                     entity.update_prev_pos()
+            for i in pg.event.get():
+                if i.type == pg.QUIT:
+                    sys.exit()
             time.sleep(0.5)
 
         print('im main game loop')

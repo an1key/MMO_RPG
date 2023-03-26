@@ -35,8 +35,8 @@ import random
 # if len(all_cre[1]) == 0:
 #     print('Player won')
 
-game = GameController(5,10,
-                      [Player('KINNG', 50, 15, 3),Player('BORIS', 100, 20, 5)],
+game = GameController(10,10,
+                      [Player('KINNG', 50, 15, 5),Player('BORIS', 100, 20, 7)],
                       [Mob('Insipid', 10, 5)])
 game.start_game()
 print('finished')
