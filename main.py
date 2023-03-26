@@ -1,4 +1,5 @@
 from entities import Player, Mob
+from game import GameController
 import random
 
 all_cre = [[Player('KINNG', 50, 15)],
@@ -33,3 +34,6 @@ if len(all_cre[0]) == 0:
 
 if len(all_cre[1]) == 0:
     print('Player won')
+
+game = GameController(5,10,[],[])
+game.show_field()
