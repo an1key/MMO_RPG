@@ -18,6 +18,10 @@ class Entity:
         return False
 
 class Player(Entity):
+    def __init__(self, name, hp, dmg):
+        super().__init__(name, hp, dmg)
+        self.pos = [0,0]
+
     pass
 
 
@@ -25,3 +29,4 @@ class Mob(Entity):
     def __init__(self, name, hp, dmg):
         super().__init__(name, hp, dmg)
         self.flag = False
+        self.pos = [0, 0]
