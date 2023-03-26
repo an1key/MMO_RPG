@@ -36,8 +36,8 @@ if len(all_cre[1]) == 0:
     print('Player won')
 
 game = GameController(5,10,
-                      [Player('KINNG', 50, 15),Player('INNG', 50, 15),Player('NG', 50, 15)],
-                      [Mob('Insipid', 10, 5),Mob('Boris', 30, 10)])
+                      [Player('KINNG', 50, 15)]*10,
+                      [Mob('Insipid', 10, 5)]*10)
 game.show_field()
 game.start_game()
 print('finished')
